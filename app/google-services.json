@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "632439585069",
+    "firebase_url": "https://ising-vers0.firebaseio.com",
+    "project_id": "ising-vers0",
+    "storage_bucket": "ising-vers0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632439585069:android:1b0658a8e930ad1033bba4",
+        "android_client_info": {
+          "package_name": "com.pi.ising"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632439585069-7l3ia4d0500cifs4uophdg8rrhhec84o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pi.ising",
+            "certificate_hash": "338fca27422b9e88481b790e8543ab1414076886"
+          }
+        },
+        {
+          "client_id": "632439585069-js18sabj32k1uii7um8803oj9u92kpnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChSHApcLdJc4PsywCu_r9X7iHTuy2kNWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632439585069-js18sabj32k1uii7um8803oj9u92kpnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
