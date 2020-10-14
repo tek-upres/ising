@@ -37,5 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.google.firebase:firebase-database'
+    implementation  'com.firebase:firebase-client-android:2.5.2'
+    implementation  'com.google.firebase:firebase-messaging'
 
 }
