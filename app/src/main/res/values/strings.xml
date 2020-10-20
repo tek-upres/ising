@@ -10,4 +10,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="hello_world">hello world</string>
+    <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
 </resources>

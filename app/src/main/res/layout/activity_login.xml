@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#FFFFFF"
+    tools:context=".LoginActivity">
 
     <Button
         android:id="@+id/loginbnt"
@@ -12,13 +13,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="147dp"
         android:layout_marginLeft="147dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="176dp"
         android:layout_marginRight="176dp"
         android:layout_marginBottom="172dp"
         android:text="LOGIN"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Passwordfiled" />
 
     <EditText
         android:id="@+id/Emailfiled"
@@ -30,9 +33,11 @@
         android:layout_marginTop="265dp"
         android:layout_marginEnd="114dp"
         android:layout_marginRight="114dp"
+        android:layout_marginBottom="12dp"
         android:ems="10"
         android:hint="Email.."
         android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/Passwordfiled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -6,19 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText mEmailfield;
     private EditText mPasswordfield;
     private Button mloginbtn;
@@ -28,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-getSupportActionBar().hide();
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         mEmailfield = (EditText) findViewById(R.id.Emailfiled);
         mPasswordfield = (EditText) findViewById(R.id.Passwordfiled);
@@ -39,7 +38,7 @@ getSupportActionBar().hide();
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    startActivity(new Intent(MainActivity.this, AccountActivity.class));
+                    startActivity(new Intent(LoginActivity.this, AccountActivity.class));
                     finish();
                 }
             }
@@ -62,14 +61,20 @@ getSupportActionBar().hide();
     private void startSingIn() {
         String email = mEmailfield.getText().toString();
         String password = mPasswordfield.getText().toString();
+
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(MainActivity.this, "Filed is empty", Toast.LENGTH_LONG).show();
-        } else {
+            Toast.makeText(LoginActivity.this, "Field is empty", Toast.LENGTH_LONG).show();
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            mEmailfield.setError("Invalid mail");
+            mEmailfield.setFocusable(true);
+
+        }
+        else {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(MainActivity.this, "Sign in Problem", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Sign in Problem", Toast.LENGTH_LONG).show();
                     }
                 }
             });
