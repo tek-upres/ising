@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,6 +25,16 @@ public class LoginActivity extends AppCompatActivity {
     private Button mloginbtn;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private GoogleSignInOptions gso ;
+    private GoogleSignInClient mGoogleSignInClient;
+    //private ActivityGoogleBinding mBinding;
+    private static final int RC_SIGN_IN = 9001;
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
         mAuth = FirebaseAuth.getInstance();
         mEmailfield = (EditText) findViewById(R.id.Emailfiled);
         mPasswordfield = (EditText) findViewById(R.id.Passwordfiled);
