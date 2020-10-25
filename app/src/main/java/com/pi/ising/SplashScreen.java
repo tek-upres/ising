@@ -19,9 +19,6 @@ public class SplashScreen extends AppCompatActivity {
     private FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
         user=FirebaseAuth.getInstance().getCurrentUser();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);

@@ -1,7 +1,10 @@
 package com.pi.ising;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,19 +13,35 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.facebook.login.widget.LoginButton;
+import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String EMAIL = "email";
+
+    //private ImageView profile;
+    //private TextView info;
     private EditText mEmailfield;
     private EditText mPasswordfield;
     private Button mloginbtn;
+    private LoginButton login;
+    CallbackManager callbackManager = CallbackManager.Factory.create();
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleSignInOptions gso ;
@@ -42,6 +61,28 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+       // info= findViewById(R.id.info);
+      //  profile=findViewById(R.id.imageprofile);
+        //login = findViewById(R.id.hj);
+
+//    login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//             @Override
+//             public void onSuccess(LoginResult loginResult) {
+//                 info.setText("user id"+loginResult.getAccessToken().getUserId());
+//             String umageurl="https://graph.facebook.com/"+loginResult.getAccessToken().getUserId()+"/picture?return_ssl_resources=1";
+//                 Picasso.get().load(umageurl).into(profile);
+//             }
+//
+//             @Override
+//             public void onCancel() {
+//
+//             }
+//
+//             @Override
+//             public void onError(FacebookException error) {
+//
+//             }
+//         });
         gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -50,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmailfield = (EditText) findViewById(R.id.Emailfiled);
         mPasswordfield = (EditText) findViewById(R.id.Passwordfiled);
         mloginbtn = (Button) findViewById(R.id.loginbnt);
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -67,6 +109,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        callbackManager.onActivityResult(requestCode,resultCode,data);
+//    }
 
     @Override
     protected void onStart() {
