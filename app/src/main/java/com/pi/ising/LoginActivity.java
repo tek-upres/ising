@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 //        super.onActivityResult(requestCode, resultCode, data);
 //        callbackManager.onActivityResult(requestCode,resultCode,data);
 //    }
-
+///****
     @Override
     protected void onStart() {
         super.onStart();
