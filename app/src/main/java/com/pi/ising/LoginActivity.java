@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ///////////////////////////////////////
@@ -182,6 +182,9 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
 
+    }
+    public void goToRegister(View view){
+        startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
     }
 
 }

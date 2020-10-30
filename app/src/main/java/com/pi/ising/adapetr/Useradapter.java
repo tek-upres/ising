@@ -24,19 +24,20 @@ public class Useradapter  extends RecyclerView.Adapter<Useradapter.ViewHolder>{
         this.nUsers = nUsers;
     }
 
+
+//    @NonNull
+//    @Override
+//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+//        View view=LayoutInflater.from(nCOntext).inflate(androidx.legacy.v4.R.layout,viewGroup);
+//        return new ViewHolder(view);
+//
+//    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return null;
     }
-
-    @NonNull
-   // @Override
-//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-//        View view=LayoutInflater.from(nCOntext).inflate(android.support.v4.R.layout,viewGroup);
-//        return new ViewHolder(view);
-//
-//    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
