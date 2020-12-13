@@ -42,11 +42,12 @@ public class AccountActivity extends AppCompatActivity {
                             selectedFragment=new homeFragment();
                         break;
                         case R.id.nav_search:
+
                             selectedFragment=new searchFragment();
                             break;
                         case R.id.nav_uplode:
                             selectedFragment=null;
-                            startActivity(new Intent(AccountActivity.this, videoActivity.class));
+                            startActivity(new Intent(AccountActivity.this, addVIdeoActivity.class));
                             break;
                         case R.id.nav_persone:
                             SharedPreferences.Editor editor=getSharedPreferences("PREFS",MODE_PRIVATE).edit();
@@ -70,7 +71,7 @@ if (selectedFragment !=null){
         //Log.d("info :","here 2");
         //startActivity(new Intent(AccountActivity.this,LoginActivity.class));
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(AccountActivity.this,LoginActivity.class));
+        startActivity(new Intent(AccountActivity.this, StartActivity.class));
     }
     public void goToProfile(View view){
         startActivity(new Intent(AccountActivity.this,ProfileActivity.class));

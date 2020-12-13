@@ -3,125 +3,123 @@ package com.pi.ising;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.pi.ising.model.Utilisateur;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
-        EditText username,fullName,email,password,city,birthday,number;
-        RadioButton asUser,asTalentedUser,asStar;
-        FirebaseDatabase firebaseDatabase;
-        DatabaseReference databaseReference;
-        FirebaseAuth fauth;
-        boolean valid=true;
+EditText username,fullname,email,password;
+Button register;
+TextView txt_login;
+FirebaseAuth auth;
+DatabaseReference reference;
+ProgressDialog pd;
+    String userRole;
+    RadioButton asUser,asTalentedUser,asStar;
+    boolean valid=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        ///////////////////////////////
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        fauth=FirebaseAuth.getInstance();
-        databaseReference=firebaseDatabase.getReference("Users");
-        //////////////////////////////
-        username=findViewById(R.id.inputUserName);
-        fullName=findViewById(R.id.inputFullName);
-        email=findViewById(R.id.inputEmail);
+        username=findViewById(R.id.username);
+        fullname=findViewById(R.id.fullname);
+        email=findViewById(R.id.email);
         password=findViewById(R.id.password);
-        city=findViewById(R.id.inputCity);
-        birthday=findViewById(R.id.inputBirthday);
-        number=findViewById(R.id.inputPhoneNumber);
+        register=findViewById(R.id.register);
+        txt_login=findViewById(R.id.txt_login);
+        auth=FirebaseAuth.getInstance();
         asUser=findViewById(R.id.asUser);
         asTalentedUser=findViewById(R.id.asTalentedUser);
         asStar=findViewById(R.id.asStar);
-
-
-        ///////////////////////////////
-
-
-
-
-        
+txt_login.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
     }
-    public boolean checkField(EditText textField){
-        if(textField.getText().toString().isEmpty()){
-            textField.setError("Field is empty");
-            valid=false;
-        }else{
-            valid = true;
-        }
-        return valid;
-    }
-    public void register(View view){
-        checkField(fullName);
-        checkField(email);
-        checkField(password);
-        checkField(city);
-        checkField(birthday);
-        checkField(number);
-        checkField(username);
+});
+register.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        pd=new ProgressDialog(RegisterActivity.this);
+        pd.setMessage("Pleas wait...");
+        pd.show();
+        String str_username=username.getText().toString();
+        String str_fullname=fullname.getText().toString();
+        String str_email=email.getText().toString();
+        String str_password=password.getText().toString();
 
-
-        if (valid){
-            //start the user registration process
-            fauth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                @Override
-                public void onSuccess(AuthResult authResult) {
-                    Toast.makeText(RegisterActivity.this,"Account created",Toast.LENGTH_SHORT).show();
-                    registerDatabase();
-                    startActivity(new Intent(getApplicationContext(),AccountActivity.class));
-                    finish();
-                }
-
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(RegisterActivity.this,"Failed to create Account",Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-        }
-    }
-
-    private void registerDatabase() {
-        String id= fauth.getCurrentUser().getUid();
-        String valusername=username.getText().toString();
-        String valfullname=fullName.getText().toString();
-        String valemail=email.getText().toString();
-        String valpassword=password.getText().toString();
-        String valcity=city.getText().toString();
-        String valphone=number.getText().toString();
-        String valBirthday=birthday.getText().toString();
-        String userRole="";
         if(asUser.isChecked())userRole="user";
         else if(asTalentedUser.isChecked())userRole="talented user";
         else userRole="star";
-        Utilisateur user=new Utilisateur(valfullname,valusername,valemail,valpassword,valcity
-        ,userRole,valBirthday,valphone);
+        if(TextUtils.isEmpty(str_username)||TextUtils.isEmpty(str_fullname)||TextUtils.isEmpty(str_email)||TextUtils.isEmpty(str_password)){
+            Toast.makeText(RegisterActivity.this,"All fileds are required",Toast.LENGTH_SHORT).show();
 
-        databaseReference.child(id).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(),"Registration completed",Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Registration failed",Toast.LENGTH_SHORT).show();
-            }
-        });
+        }else if(str_password.length()<6) {
+            Toast.makeText(RegisterActivity.this,"Password mut have 6 characters",Toast.LENGTH_SHORT).show();
+
+        } else{
+register(str_username,str_fullname,str_email,str_password,userRole);
+        }
+    }
+});
+
+    }
+
+    private  void register (final String username, final String fullname , String email , String password, final String userRole){
+
+        auth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if(task.isSuccessful()){
+                            FirebaseUser firebaseUser=auth.getCurrentUser();
+                            String userid=firebaseUser.getUid();
+                            reference=FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
+                            HashMap<String,Object> hashMap=new HashMap<>();
+                            hashMap.put("id",userid);
+                            hashMap.put("username",username.toLowerCase());
+                            hashMap.put("fullname",fullname);
+                            hashMap.put("bio","");
+                            hashMap.put("imageurl","https://firebasestorage.googleapis.com/v0/b/ising-vers0.appspot.com/o/User_icon_BLACK-01.png?alt=media&token=4bbc3cba-3117-4fe8-a4d8-e5b8a619dd08");
+                            hashMap.put("userRole",userRole);
+                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                 if(task.isSuccessful()){
+                                     pd.dismiss();
+                                     Intent intent =new Intent(RegisterActivity.this,AccountActivity.class);
+                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                     startActivity(intent);
+                                 }
+                                }
+                            });
+
+
+
+                        }else {
+                            pd.dismiss();
+                            Toast.makeText(RegisterActivity.this,"You can't register width thi email or password",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
 
     }

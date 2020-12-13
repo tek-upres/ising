@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -57,9 +58,9 @@ private static final int video_pick_gallery_code=100;
         setContentView(R.layout.activity_add_v_ideo);
     actionBar=getSupportActionBar();
 
-    actionBar.setTitle("Add new Video");
-    actionBar.setDisplayShowHomeEnabled(true);
-    actionBar.setDisplayHomeAsUpEnabled(true);
+   // actionBar.setTitle("Add new Video");
+  //  actionBar.setDisplayShowHomeEnabled(true);
+  //  actionBar.setDisplayHomeAsUpEnabled(true);
 titleEt=findViewById(R.id.titleEt);
         videoView=findViewById(R.id.videoView);
         uploadVideoBTn=findViewById(R.id.uploadVideoBTn);
@@ -81,7 +82,7 @@ progressDialog.setCanceledOnTouchOutside(false);
         pickvideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            title=titleEt.getText().toString().trim();
+            title=titleEt.getText().toString();
                 if(TextUtils.isEmpty(title)){
                     Toast.makeText(addVIdeoActivity.this, "title is required", Toast.LENGTH_SHORT).show();
                 }
@@ -103,6 +104,7 @@ progressDialog.setCanceledOnTouchOutside(false);
     }
 
     private void uploadVideoFirebase() {
+        title=titleEt.getText().toString();
         progressDialog.show();
         final String timestamp=""+System.currentTimeMillis();
         String filepathAndName="Videos/"+"video_"+timestamp;
@@ -115,10 +117,10 @@ progressDialog.setCanceledOnTouchOutside(false);
                Uri downloadUri =uriTask.getResult();
                if(uriTask.isSuccessful()){
                    HashMap<String,Object> hashMap=new HashMap<>();
-                   hashMap.put("id",""+timestamp);
-                   hashMap.put("title",""+title);
-                   hashMap.put("timestamp",""+timestamp);
-                   hashMap.put("videoUrl",""+downloadUri);
+                   hashMap.put("postid",""+timestamp);
+                   hashMap.put("description",""+title);
+                   hashMap.put("postimage",""+downloadUri);
+                   hashMap.put("publisher",""+FirebaseAuth.getInstance().getCurrentUser().getUid());
                    DatabaseReference  reference= FirebaseDatabase.getInstance().getReference("videos");
                    reference.child(timestamp).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                        @Override

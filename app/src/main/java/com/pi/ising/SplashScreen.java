@@ -1,13 +1,10 @@
 package com.pi.ising;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +28,7 @@ public class SplashScreen extends AppCompatActivity {
                     startActivity(new Intent(SplashScreen.this, AccountActivity.class));
                     finish();
                 }else {
-                    startActivity(new Intent(SplashScreen.this,LoginActivity.class));
+                    startActivity(new Intent(SplashScreen.this, StartActivity.class));
                     finish();
                 }
 

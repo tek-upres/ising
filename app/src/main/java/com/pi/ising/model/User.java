@@ -1,19 +1,31 @@
 package com.pi.ising.model;
 
-public class user {
+public class User {
     private String id;
     private String username;
     private String fullname;
     private String imageurl;
     private String bio;
+   private String userRole;
 
-
-    public user(String id, String username, String fullname, String imageurl, String bio) {
+    public User(String id, String username, String fullname, String imageurl, String bio,String userRole) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
         this.imageurl = imageurl;
         this.bio = bio;
+        this.userRole = userRole;
+    }
+
+    public User() {
+        }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public String getId() {
