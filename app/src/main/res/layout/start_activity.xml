@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/spalch"
+    tools:context=".StartActivity"
+    android:padding="12dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="396dp"
+        android:layout_height="325dp"
+        android:src="@drawable/aa" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log In"
+        android:id="@+id/login"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/button_background"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:id="@+id/register"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/button_background"/>
+
+    <ImageView
+        android:id="@+id/google_btn"
+        android:layout_width="385dp"
+        android:layout_height="90dp"
+        android:onClick="signingoogle"
+        android:paddingTop="20dp"
+        app:srcCompat="@drawable/googleg_standard_color_18" />
+
+</LinearLayout>
