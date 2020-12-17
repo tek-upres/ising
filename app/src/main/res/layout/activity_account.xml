@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/button"
         android:id="@+id/fragment_container">
-        <Button
+      <Button
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </FrameLayout>
 
 <com.google.android.material.appbar.AppBarLayout
@@ -35,6 +36,7 @@
     android:id="@+id/button"
     android:layout_alignParentBottom="true"
     android:layout_height="wrap_content"
+
 
     >
     <com.google.android.material.bottomnavigation.BottomNavigationView

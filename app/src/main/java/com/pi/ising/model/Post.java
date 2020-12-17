@@ -24,7 +24,7 @@ private  String publisher;
         Postid = postid;
     }
 
-    public String getPsotimage() {
+    public String getPostimage() {
         return postimage;
     }
 

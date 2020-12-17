@@ -20,4 +20,5 @@
         android:id="@+id/nav_heart"
         android:icon="@drawable/ic_heart"
         android:title=""/>
+    
 </menu>

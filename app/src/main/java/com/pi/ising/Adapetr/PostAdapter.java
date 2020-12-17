@@ -1,17 +1,27 @@
 package com.pi.ising.Adapetr;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +33,7 @@ import com.pi.ising.R;
 import com.pi.ising.model.Post;
 import com.pi.ising.model.User;
 
+import java.io.File;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
@@ -44,15 +55,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+
+
 firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
     Post post=mPost.get(position);
-    Glide.with(mContext).load(post.getPsotimage()).
+
+
+        System.out.println(post.getPostimage());
+   Glide.with(mContext).load(post.getPostimage()).load(holder.post_video);
 if(post.getDescription().equals("")){
     holder.description.setVisibility(View.GONE);
 }else{
     holder.description.setVisibility(View.VISIBLE);
     holder.description.setText(post.getDescription());
 }
+
 publisherInfo(holder.imaga_profile,holder.username,holder.publisher,post.getPublisher());
     }
 
@@ -63,13 +81,13 @@ publisherInfo(holder.imaga_profile,holder.username,holder.publisher,post.getPubl
 
     public class  ViewHolder extends RecyclerView.ViewHolder{
 public ImageView imaga_profile,like,comment,save;
-public VideoView post_video;
+public ImageView post_video;
 public TextView username,likes,publisher,description,comments;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imaga_profile=itemView.findViewById(R.id.image_profile);
             post_video=itemView.findViewById(R.id.post_video);
-            post_video=itemView.findViewById(R.id.post_video);
+          //  post_video=itemView.findViewById(R.id.post_video);
             like=itemView.findViewById(R.id.like);
             comment=itemView.findViewById(R.id.comment);
             save=itemView.findViewById(R.id.fav);
@@ -81,16 +99,16 @@ public TextView username,likes,publisher,description,comments;
     }
 
     private void  publisherInfo(final ImageView image_profile, final TextView username, final TextView publisher, final String userid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(userid);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user=snapshot.getValue(User.class);
-                Glide.with(mContext).load(user.getImageurl()).into(image_profile);
 
-                username.setText(user.getUsername());
-                publisher.setText(user.getUsername());
+             Glide.with(mContext).load(user.getImageurl()).into(image_profile);
+               username.setText(user.getUsername());
+              publisher.setText(user.getUsername());
             }
 
             @Override

@@ -44,6 +44,7 @@ private List<String>followinglists;
         postLists=new ArrayList<>();
         postAdapter=new PostAdapter(getContext(),postLists);
         recyclerView.setAdapter(postAdapter);
+
         checkFollowing();
         return view;
     }

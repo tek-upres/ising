@@ -27,7 +27,6 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        Log.d("info :","here 1");
         Button btn=findViewById(R.id.logout);
         bottomNavigationView=findViewById(R.id.button_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItenSelectedLintener);

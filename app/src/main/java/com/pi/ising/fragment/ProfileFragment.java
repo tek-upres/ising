@@ -90,7 +90,7 @@ edit_profile.setOnClickListener(new View.OnClickListener() {
         return view;
     }
     private  void userinfo(){
-        Log.d("id",profileid);
+
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users").child(profileid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
