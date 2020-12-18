@@ -1,6 +1,7 @@
 package com.pi.ising.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pi.ising.EditProfileActivity;
 import com.pi.ising.R;
 import com.pi.ising.model.Post;
 import com.pi.ising.model.User;
@@ -72,6 +74,7 @@ edit_profile.setOnClickListener(new View.OnClickListener() {
         String btn=edit_profile.getText().toString();
 
         if(btn.equals("Edit Profile")){
+            startActivity(new Intent(getContext(), EditProfileActivity.class));
 
         }else if (btn.equals("follow")){
             FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
