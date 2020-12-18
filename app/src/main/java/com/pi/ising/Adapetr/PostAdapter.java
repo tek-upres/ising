@@ -1,6 +1,7 @@
 package com.pi.ising.Adapetr;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pi.ising.CommentsActivity;
 import com.pi.ising.R;
 import com.pi.ising.model.Post;
 import com.pi.ising.model.User;
@@ -74,6 +76,7 @@ if(post.getDescription().equals("")){
 publisherInfo(holder.imaga_profile,holder.username,holder.publisher,post.getPublisher());
 isliked(post.getPostid(),holder.like);
 nrlikes(holder.likes,post.getPostid());
+getComments(post.getPostid(),holder.comments);
 holder.like.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -84,6 +87,24 @@ holder.like.setOnClickListener(new View.OnClickListener() {
         }
     }
 });
+holder.comment.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(mContext, CommentsActivity.class);
+        intent.putExtra("postid",post.getPostid());
+        intent.putExtra("publisshier",post.getPublisher());
+        mContext.startActivity(intent);
+    }
+});
+        holder.comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, CommentsActivity.class);
+                intent.putExtra("postid",post.getPostid());
+                intent.putExtra("publisshier",post.getPublisher());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -102,12 +123,28 @@ public TextView username,likes,publisher,description,comments;
           //  post_video=itemView.findViewById(R.id.post_video);
             like=itemView.findViewById(R.id.like);
             comment=itemView.findViewById(R.id.comment);
+            comments=itemView.findViewById(R.id.comments);
             save=itemView.findViewById(R.id.fav);
             username=itemView.findViewById(R.id.username);
             likes=itemView.findViewById(R.id.likes);
             publisher=itemView.findViewById(R.id.publisher);
             description=itemView.findViewById(R.id.description);
         }
+    }
+    private void getComments(String postid, final TextView commnets){
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Comments").child(postid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                commnets.setText("View All  "+snapshot.getChildrenCount()+"  Comments");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
     public void isliked(String postid, final ImageView imageView){
         final FirebaseUser firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
