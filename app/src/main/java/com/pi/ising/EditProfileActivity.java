@@ -2,13 +2,18 @@ package com.pi.ising;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
@@ -32,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.pi.ising.model.User;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -92,16 +98,23 @@ public class EditProfileActivity extends AppCompatActivity {
         tv_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity().setAspectRatio(1,1)
-                        .setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);
+                /*CropImage.activity()
+                        .setAspectRatio(1,1)
+                        .setCropShape(CropImageView.CropShape.OVAL)
+                        .start(EditProfileActivity.this);*/
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(EditProfileActivity.this);
             }
         });
 
         imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity().setAspectRatio(1,1)
-                        .setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);
+                /*CropImage.activity().setAspectRatio(1,1)
+                        .setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);*/
+                Intent galleryIntent= new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent,1);
 
             }
         });
@@ -139,11 +152,12 @@ public class EditProfileActivity extends AppCompatActivity {
         pd.show();
         if (mImageUri != null){
             final StorageReference filerefence = storageRef.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
+
             storageTask = filerefence.putFile(mImageUri);
             storageTask.continueWithTask(new Continuation() {
                 @Override
                 public Object then(@NonNull Task task) throws Exception {
-                    if (task.isSuccessful()){
+                    if (!task.isSuccessful()){
                         throw task.getException();
                     }
                     return filerefence.getDownloadUrl();
@@ -169,7 +183,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(EditProfileActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }else {
@@ -177,16 +191,67 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && requestCode == RESULT_OK){
-            CropImage.ActivityResult result=CropImage.getActivityResult(data);
-            mImageUri =result.getUri();
-            uploadImage();
-        }else {
-            Toast.makeText(this, "Something gone wrong!", Toast.LENGTH_SHORT).show();
+        if (requestCode == 1 && resultCode==RESULT_OK && data !=null){
+            mImageUri=data.getData();
+            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).
+                    start(EditProfileActivity.this);
+
+            }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (requestCode == RESULT_OK){
+                Uri resultUri = result.getUri();
+                Toast.makeText(this, "RESULT OK ", Toast.LENGTH_SHORT).show();
+                uploadImage();
+            }else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Exception e=result.getError();
+            }
 
         }
+        //Toast.makeText(this,"ahmed"+ String.valueOf(resultCode), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "sami"+String.valueOf(RESULT_OK ), Toast.LENGTH_SHORT).show();
+        //   Log.d("ahmed", String.valueOf(requestCode));
+        //Log.d("ahmeddd",String.valueOf(CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ));
+        /*if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE/*CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK){
+            mImageUri = result.getUri();
+            imageProfile.setImageURI(mImageUri);
+            uploadImage();}
+            else if (resultCode== CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Exception e=result.getError();
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+           /* mImageUri=CropImage.getPickImageResultUri(EditProfileActivity.this,data);
+            if (CropImage.isReadExternalStoragePermissionsRequired(EditProfileActivity.this,mImageUri)){
+                Uri uri=mImageUri;
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+            }else{
+                startCrop(mImageUri);
+            }
+            //imageProfile.setImageURI(mImageUri);
+            //uploadImage();*/
+        /*}else {
+            Toast.makeText(this, "Something gone wrong!", Toast.LENGTH_SHORT).show();
+
+        }*/
+        /*if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result=CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK){
+                imageProfile.setImageURI(result.getUri());
+                Toast.makeText(this, "Image Updated Successfully", Toast.LENGTH_SHORT).show();
+                uploadImage();
+            }
+        }*/
+        }
+
+
+    private void startCrop(Uri mImageUri) {
+        CropImage.activity(mImageUri).setGuidelines(CropImageView.Guidelines.ON).setMultiTouchEnabled(true)
+                .start(EditProfileActivity.this);
     }
 }

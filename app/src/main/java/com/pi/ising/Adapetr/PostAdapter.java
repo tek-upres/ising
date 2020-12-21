@@ -2,6 +2,7 @@ package com.pi.ising.Adapetr;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -34,6 +36,7 @@ import com.pi.ising.CommentsActivity;
 import com.pi.ising.R;
 import com.pi.ising.model.Post;
 import com.pi.ising.model.User;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
@@ -65,7 +68,34 @@ firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
 
 
         System.out.println(post.getPostimage());
-   Glide.with(mContext).load(post.getPostimage()).load(holder.post_video);
+        Picasso.get().load(post.getPostimage()).into(holder.imageView);
+        try{
+            String link=post.getPostimage();
+            MediaController mediaController=new MediaController(mContext);
+            mediaController.setAnchorView(holder.post_video);
+            Uri video=Uri.parse(link);
+            holder.post_video.setMediaController(mediaController);
+            holder.post_video.setVideoURI(video);
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.imageView.setVisibility(View.GONE);
+                    holder.post_video.start();
+                }
+            });
+            holder.post_video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    holder.imageView.setVisibility(View.VISIBLE);
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(mContext, "Error connection", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+  // Glide.with(mContext).load(post.getPostimage()).load(holder.post_video);
 if(post.getDescription().equals("")){
     holder.description.setVisibility(View.GONE);
 }else{
@@ -114,10 +144,12 @@ holder.comment.setOnClickListener(new View.OnClickListener() {
 
     public class  ViewHolder extends RecyclerView.ViewHolder{
 public ImageView imaga_profile,like,comment,save;
-public ImageView post_video;
+public VideoView post_video;
+        public ImageView imageView;
 public TextView username,likes,publisher,description,comments;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageView=itemView.findViewById(R.id.pimage);
             imaga_profile=itemView.findViewById(R.id.image_profile);
             post_video=itemView.findViewById(R.id.post_video);
           //  post_video=itemView.findViewById(R.id.post_video);

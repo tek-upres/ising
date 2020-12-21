@@ -3,6 +3,8 @@ package com.pi.ising;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
@@ -22,12 +24,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pi.ising.Adapetr.CommentsAdpter;
+import com.pi.ising.model.Comment;
 import com.pi.ising.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CommentsActivity extends AppCompatActivity {
-EditText addcomment;
+private RecyclerView recyclerView;
+private CommentsAdpter commentsAdpter ;
+private List<Comment> commentList;
+    EditText addcomment;
 ImageView image_profile;
 TextView post;
 String postid;
@@ -43,7 +52,16 @@ FirebaseUser firebaseUser;
 toolbar.setTitle("Comments");
     //    setSupportActionBar(toolbar);
 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-addcomment=findViewById(R.id.add_comment);
+recyclerView=findViewById(R.id.recycle_view);
+     recyclerView.setHasFixedSize(true);
+     LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+     recyclerView.setLayoutManager(linearLayoutManager);
+     commentList =new ArrayList<>();
+     commentsAdpter=new CommentsAdpter(this,commentList);
+recyclerView.setAdapter(commentsAdpter);
+
+
+        addcomment=findViewById(R.id.add_comment);
 image_profile=findViewById(R.id.image_profile);
 post=findViewById(R.id.post);
 firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
@@ -62,6 +80,7 @@ post.setOnClickListener(new View.OnClickListener() {
     }
 });
 getImage();
+readComments();
 
     }
     private void addComment(){
@@ -87,6 +106,26 @@ getImage();
             }
         });
     }
+private  void readComments(){
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Comments").child(postid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                commentList.clear();
+                for (DataSnapshot snapshot1:snapshot.getChildren()){
+                    Comment comment=snapshot1.getValue(Comment.class);
+               commentList.add(comment);
 
+
+                }
+                commentsAdpter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+}
 
 }

@@ -30,7 +30,18 @@ public class AccountActivity extends AppCompatActivity {
         Button btn=findViewById(R.id.logout);
         bottomNavigationView=findViewById(R.id.button_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItenSelectedLintener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new homeFragment()).commit();
+      Bundle intent=getIntent().getExtras();
+      if(intent!=null){
+          String publisher=intent.getString("publisherid");
+          SharedPreferences.Editor editor=getSharedPreferences("PREFS",MODE_PRIVATE).edit();
+      editor.putString("profileid",publisher);
+      editor.apply();
+          getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+      }else {
+
+
+          getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new homeFragment()).commit();
+      }
     }
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItenSelectedLintener=
             new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -31,12 +31,20 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="180dp">
+<VideoView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/post_video"
+    android:layout_gravity="center"/>
         <ImageView
-            android:id="@+id/post_video"
+            android:id="@+id/pimage"
             android:layout_width="match_parent"
-            android:layout_height="163dp"/>
-
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>/>
+</androidx.cardview.widget.CardView>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
