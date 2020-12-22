@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,10 +28,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pi.ising.Adapetr.MyVideoAdapter;
 import com.pi.ising.EditProfileActivity;
 import com.pi.ising.R;
 import com.pi.ising.model.Post;
 import com.pi.ising.model.User;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 public class ProfileFragment extends Fragment {
@@ -36,6 +45,9 @@ public class ProfileFragment extends Fragment {
 ImageView image_profile,options;
 TextView posts,followers,following,fullname,bio,username;
 Button edit_profile;
+RecyclerView recyclerView;
+MyVideoAdapter myVideoAdapter;
+List<Post> postlist;
 FirebaseUser firebaseUser;
 String profileid;
 ImageButton my_videos,saved_videos;
@@ -59,9 +71,16 @@ ImageButton my_videos,saved_videos;
         edit_profile=view.findViewById(R.id.edit_profile);
         my_videos=view.findViewById(R.id.my_Posts);
         saved_videos=view.findViewById(R.id.save_videos);
+     recyclerView=view.findViewById(R.id.recycle_view);
+       recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager=new GridLayoutManager(getContext(),3);
+        postlist=new ArrayList<>();
+        myVideoAdapter=new MyVideoAdapter(getContext(),postlist);
+        recyclerView.setAdapter(myVideoAdapter);
         userinfo();
         getFollowers();
         getnrposts();
+        myvideo();
         if(profileid.equals(firebaseUser.getUid())){
             edit_profile.setText("Edit Profile");
         }else{
@@ -182,5 +201,28 @@ private void getnrposts(){
 
         }
     });
+}
+private void myvideo(){
+        DatabaseReference  reference=FirebaseDatabase.getInstance().getReference("videos");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postlist.clear();
+                for(DataSnapshot snapshot1:snapshot.getChildren()){
+                    Post post=snapshot1.getValue(Post.class);
+                    if(post.getPublisher().equals(profileid)){
+                        postlist.add(post);
+                    }
+                }
+                Collections.reverse(postlist);
+                myVideoAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 }
 }

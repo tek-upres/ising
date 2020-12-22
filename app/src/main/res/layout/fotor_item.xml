@@ -2,10 +2,20 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
 <VideoView
+    android:id="@+id/post_video"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
-    android:id="@+id/post_video"
+    android:layout_gravity="center"
     />
+    <ImageView
+        android:id="@+id/pimage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
