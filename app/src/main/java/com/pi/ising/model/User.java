@@ -6,19 +6,38 @@ public class User {
     private String fullname;
     private String imageurl;
     private String bio;
-   private String userRole;
+   private String userRole,onlineStatus,typingTo;
 
-    public User(String id, String username, String fullname, String imageurl, String bio,String userRole) {
+    public User(String id,String onlineStatus,String typingTo, String username, String fullname, String imageurl, String bio,String userRole) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
         this.imageurl = imageurl;
         this.bio = bio;
         this.userRole = userRole;
+        this.typingTo=typingTo;
+        this.onlineStatus=typingTo;
+
     }
 
     public User() {
         }
+
+    public String getOnlineStatus() {
+        return onlineStatus;
+    }
+
+    public void setOnlineStatus(String onlineStatus) {
+        this.onlineStatus = onlineStatus;
+    }
+
+    public String getTypingTo() {
+        return typingTo;
+    }
+
+    public void setTypingTo(String typingTo) {
+        this.typingTo = typingTo;
+    }
 
     public String getUserRole() {
         return userRole;

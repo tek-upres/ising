@@ -3,6 +3,7 @@ package com.pi.ising;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,15 +21,17 @@ import com.pi.ising.fragment.notificationFragment;
 import com.pi.ising.fragment.searchFragment;
 
 public class AccountActivity extends AppCompatActivity {
-   BottomNavigationView bottomNavigationView;
+   BottomNavigationView bottomNavigationView,bottomNavigation;
    Fragment selectedFragment =null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        Button btn=findViewById(R.id.logout);
+          bottomNavigation=findViewById(R.id.button_bar);
         bottomNavigationView=findViewById(R.id.button_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(navigationItenSelectedLintener);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItenSelectedLintener);
       Bundle intent=getIntent().getExtras();
       if(intent!=null){
@@ -59,6 +62,9 @@ public class AccountActivity extends AppCompatActivity {
                             selectedFragment=null;
                             startActivity(new Intent(AccountActivity.this, addVIdeoActivity.class));
                             break;
+                        case R.id.nav_chat:
+                            selectedFragment=new chatlistFragment();
+                            break;
                         case R.id.nav_persone:
                             SharedPreferences.Editor editor=getSharedPreferences("PREFS",MODE_PRIVATE).edit();
                            editor.putString("profileid",FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -81,8 +87,9 @@ if (selectedFragment !=null){
         //Log.d("info :","here 2");
         //startActivity(new Intent(AccountActivity.this,LoginActivity.class));
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(AccountActivity.this, StartActivity.class));
+        startActivity(new Intent(AccountActivity.this,LoginActivity.class));
     }
+
     public void goToProfile(View view){
         startActivity(new Intent(AccountActivity.this,ProfileActivity.class));
     }

@@ -98,6 +98,7 @@ register(str_username,str_fullname,str_email,str_password,userRole);
                             hashMap.put("username",username.toLowerCase());
                             hashMap.put("fullname",fullname);
                             hashMap.put("bio","");
+
                             hashMap.put("imageurl","https://firebasestorage.googleapis.com/v0/b/ising-vers0.appspot.com/o/User_icon_BLACK-01.png?alt=media&token=4bbc3cba-3117-4fe8-a4d8-e5b8a619dd08");
                             hashMap.put("userRole",userRole);
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

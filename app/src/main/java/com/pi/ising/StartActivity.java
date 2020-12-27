@@ -177,6 +177,8 @@ public class StartActivity extends AppCompatActivity {
             //reference=FirebaseDatabase.getInstance().getReference("/Users").child(user_id);
             final HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("id", user_id);
+            hashMap.put("onlineStatus", "");
+            hashMap.put("typingTo", "");
             hashMap.put("username", account.getDisplayName().toLowerCase());
             hashMap.put("fullname", account.getGivenName() + " " + account.getFamilyName());
             hashMap.put("bio", "");
@@ -186,7 +188,7 @@ public class StartActivity extends AppCompatActivity {
             //reference.setValue(hashMap);
             reference.setValue(new User(hashMap.get("id").toString(),hashMap.get("username").toString(),hashMap.get("fullname").toString(),
                     hashMap.get("imageurl").toString(),
-                    hashMap.get("bio").toString(),hashMap.get("userRole").toString())).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    hashMap.get("bio").toString(),hashMap.get("typingTo").toString(),hashMap.get("onlineStatus").toString(),hashMap.get("userRole").toString())).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(StartActivity.this, "Welcome "+hashMap.get("fullname").toString() , Toast.LENGTH_SHORT).show();

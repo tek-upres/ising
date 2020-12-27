@@ -204,7 +204,7 @@ public TextView username,likes,publisher,description,comments;
         reference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                likes.setText(snapshot.getChildrenCount()+"likes");
+                likes.setText(snapshot.getChildrenCount()+"  likes");
             }
 
             @Override

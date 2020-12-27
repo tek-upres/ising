@@ -8,11 +8,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pi.ising.ChatActivity;
 import com.pi.ising.R;
 import com.pi.ising.fragment.ProfileFragment;
 import com.pi.ising.model.User;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +61,7 @@ public class Useradapter  extends RecyclerView.Adapter<Useradapter.ViewHolder>{
         if(user.getId().equals((String)firebaseUser.getUid())){
             viewHolder.btn_follow.setVisibility(View.GONE);
         }
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,11 +101,13 @@ public class Useradapter  extends RecyclerView.Adapter<Useradapter.ViewHolder>{
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
 public TextView username;
+public Button nav_chat;
         public TextView fulname;
         public CircleImageView image_profile;
         public Button btn_follow;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            nav_chat=itemView.findViewById(R.id.nav_chat);
             username=itemView.findViewById(R.id.username);
             fulname=itemView.findViewById(R.id.fullname);
             image_profile=itemView.findViewById(R.id.image_profile);

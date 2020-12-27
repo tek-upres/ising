@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_search"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_textlogo"
         android:title=""/>
 
     <item
-        android:id="@+id/nav_persone"
-        android:icon="@drawable/ic_persone"
+        android:id="@+id/nav_chat"
+        android:icon="@drawable/ic_msg"
         android:title=""/>
 </menu>

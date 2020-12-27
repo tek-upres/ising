@@ -6,30 +6,42 @@
     android:layout_height="match_parent"
 
     tools:context=".AccountActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       android:orientation="vertical" >
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        android:id="@+id/bar">
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/button_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?android:attr/windowBackground"
+            app:itemIconTint="@color/colorAccent"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu_bar"
+
+            >
+
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </com.google.android.material.appbar.AppBarLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/button"
         android:id="@+id/fragment_container">
-      <Button
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="170dp"
-            android:layout_marginLeft="170dp"
-            android:layout_marginTop="218dp"
-            android:layout_marginEnd="154dp"
-            android:layout_marginRight="154dp"
-            android:layout_marginBottom="337dp"
-            android:onClick="signout"
-            android:text="@string/logout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
     </FrameLayout>
+
+    </LinearLayout>
 
 <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
@@ -55,6 +67,21 @@
 
 </com.google.android.material.appbar.AppBarLayout>
 
-
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="170dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="218dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginRight="154dp"
+        android:layout_marginBottom="337dp"
+        android:onClick="signout"
+        android:text="@string/logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </RelativeLayout>
