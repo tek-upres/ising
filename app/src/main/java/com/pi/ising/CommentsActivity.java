@@ -89,6 +89,7 @@ readComments();
         hashMap.put("comment",addcomment.getText().toString());
         hashMap.put("publisher",firebaseUser.getUid());
         reference.push().setValue(hashMap);
+        addNotifications();
         addcomment.setText("");
     }
     private void getImage() {
@@ -106,7 +107,18 @@ readComments();
             }
         });
     }
-private  void readComments(){
+    private void addNotifications() {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Notifications").child(publisshier);
+
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("userid",firebaseUser.getUid());
+        hashMap.put("text","Commented "+addcomment.getText().toString());
+        hashMap.put("postid","");
+        hashMap.put("ispost",false);
+        reference.push().setValue(hashMap);
+    }
+
+    private  void readComments(){
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Comments").child(postid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override

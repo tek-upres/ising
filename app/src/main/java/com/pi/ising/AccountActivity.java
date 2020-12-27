@@ -83,13 +83,13 @@ if (selectedFragment !=null){
                     return true;
                 }
             };
-    public void signout(View view){
+  /*  public void signout(View view){
         //Log.d("info :","here 2");
         //startActivity(new Intent(AccountActivity.this,LoginActivity.class));
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(AccountActivity.this,LoginActivity.class));
     }
-
+*/
     public void goToProfile(View view){
         startActivity(new Intent(AccountActivity.this,ProfileActivity.class));
     }

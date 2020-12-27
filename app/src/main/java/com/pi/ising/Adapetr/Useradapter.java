@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -80,6 +81,7 @@ public class Useradapter  extends RecyclerView.Adapter<Useradapter.ViewHolder>{
                             .child("following").child(user.getId()).setValue(true);
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId())
                             .child("followers").child(firebaseUser.getUid()).setValue(true);
+                    addNotifications(user.getId());
                 }
                 else{
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
@@ -117,6 +119,28 @@ public Button nav_chat;
 
         }
     }
+    private void addNotifications(String publisher) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Notifications").child(publisher);
+
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("userid",firebaseUser.getUid());
+        hashMap.put("text","started following you");
+        hashMap.put("postid","");
+        hashMap.put("ispost",false);
+        reference.push().setValue(hashMap);
+    }
+
+    private void addNotifications(String publisher, String postid) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Notifications").child(publisher);
+
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("userid",firebaseUser.getUid());
+        hashMap.put("text","Liked your post");
+        hashMap.put("postid",postid);
+        hashMap.put("ispost",true);
+        reference.push().setValue(hashMap);
+    }
+
     private void  isFollowing (final String id, final Button button){
        DatabaseReference reference= FirebaseDatabase.getInstance().getReference()
                .child("Follow").child(firebaseUser.getUid()).child("following");

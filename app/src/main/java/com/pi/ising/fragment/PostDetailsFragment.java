@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PostDetailsFragement extends Fragment {
+public class PostDetailsFragment extends Fragment {
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private List<Post> postLists;
@@ -54,7 +54,7 @@ public class PostDetailsFragement extends Fragment {
     }
 
     private void readPost() {
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Posts").child(postid);
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("videos").child(postid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

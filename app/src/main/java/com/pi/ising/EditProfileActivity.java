@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.pi.ising.model.User;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -47,6 +48,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private Uri mImageUri;
     private StorageTask storageTask;
     StorageReference storageRef ;
+    private static final int IMAGE_REQUEST=1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,17 +95,18 @@ public class EditProfileActivity extends AppCompatActivity {
         tv_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity().setAspectRatio(1,1)
-                        .setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);
+               /* CropImage.activity().setAspectRatio(1,1)
+                        .setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);*/
+                selectImage();
             }
         });
 
         imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity().setAspectRatio(1,1)
-                        .setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);
-
+               /* CropImage.activity().setAspectRatio(1,1)
+                        .setCropShape(CropImageView.CropShape.OVAL).start(EditProfileActivity.this);*/
+                selectImage();
             }
         });
 
@@ -111,12 +115,21 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 updateProfile(fullname.getText().toString(),username.getText().toString()
                         ,bio.getText().toString());
+                Toast.makeText(EditProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
             }
 
 
         });
 
     }
+
+    private void selectImage() {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(i,IMAGE_REQUEST);
+    }
+
     private void updateProfile(String fullname, String username, String bio) {
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         HashMap<String,Object> hashMap=new HashMap<>();
@@ -140,10 +153,10 @@ public class EditProfileActivity extends AppCompatActivity {
         if (mImageUri != null){
             final StorageReference filerefence = storageRef.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
             storageTask = filerefence.putFile(mImageUri);
-            storageTask.continueWithTask(new Continuation() {
+            storageTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot,Task<Uri>>() {
                 @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if (task.isSuccessful()){
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()){
                         throw task.getException();
                     }
                     return filerefence.getDownloadUrl();
@@ -180,11 +193,15 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && requestCode == RESULT_OK){
-            CropImage.ActivityResult result=CropImage.getActivityResult(data);
-            mImageUri =result.getUri();
-            uploadImage();
+        if (requestCode== IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            /*CropImage.ActivityResult result=CropImage.getActivityResult(data);
+            mImageUri =result.getUri();*/
+            mImageUri=data.getData();
+            if (storageTask != null && storageTask.isInProgress()){
+                Toast.makeText(this, "Upload in progress..", Toast.LENGTH_SHORT).show();
+            }else {
+                uploadImage();
+            }
         }else {
             Toast.makeText(this, "Something gone wrong!", Toast.LENGTH_SHORT).show();
 

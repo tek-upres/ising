@@ -2,6 +2,7 @@ package com.pi.ising.Adapetr;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -34,11 +36,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pi.ising.CommentsActivity;
 import com.pi.ising.R;
+import com.pi.ising.fragment.PostDetailsFragment;
 import com.pi.ising.model.Post;
 import com.pi.ising.model.User;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
@@ -67,7 +71,7 @@ firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
     final Post post=mPost.get(position);
 
 
-        System.out.println(post.getPostimage());
+        System.out.println("dddddddddddd"+post.getPostimage());
         Picasso.get().load(post.getPostimage()).into(holder.imageView);
         try{
             String link=post.getPostimage();
@@ -112,11 +116,23 @@ holder.like.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
         if(holder.like.getTag().equals("like")){
                 FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid()).child(firebaseUser.getUid()).setValue(true);
+            addNotifications(post.getPublisher(),post.getPostid());
         }else {
             FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid()).child(firebaseUser.getUid()).removeValue();
+
         }
     }
 });
+        holder.post_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor=mContext.getSharedPreferences("PREFS",Context.MODE_PRIVATE).edit();
+                editor.putString("postid",post.getPostid()  );
+                editor.apply();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PostDetailsFragment()).commit();
+            }
+        });
 holder.comment.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -213,7 +229,16 @@ public TextView username,likes,publisher,description,comments;
             }
         });
     }
+    private void addNotifications(String publisher, String postid) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Notifications").child(publisher);
 
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("userid",firebaseUser.getUid());
+        hashMap.put("text","Liked your post");
+        hashMap.put("postid",postid);
+        hashMap.put("ispost",true);
+        reference.push().setValue(hashMap);
+    }
     private void  publisherInfo(final ImageView image_profile, final TextView username, final TextView publisher, final String userid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
