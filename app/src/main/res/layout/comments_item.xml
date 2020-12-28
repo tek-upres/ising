@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/custom_profile_bg"
     android:padding="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -22,7 +23,8 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/browser_actions_divider_color"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/montserratbold"
             android:textStyle="bold" />
 
         <TextView

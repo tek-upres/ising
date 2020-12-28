@@ -20,7 +20,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editetext_background"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="5dp"
         android:hint="Username"
         android:layout_marginTop="15dp"
         android:id="@+id/username"
@@ -28,7 +30,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editetext_background"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="5dp"
         android:hint="Full Name"
         android:layout_marginTop="15dp"
         android:id="@+id/fullname"
@@ -36,7 +40,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editetext_background"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="5dp"
         android:hint="Email"
         android:layout_marginTop="15dp"
         android:id="@+id/email"
@@ -44,7 +50,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editetext_background"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_security"
+        android:drawablePadding="5dp"
         android:hint="password"
         android:layout_marginTop="15dp"
         android:id="@+id/password"
@@ -52,6 +60,7 @@
         android:padding="10dp"/>
     <RadioGroup
         android:id="@+id/userRoles"
+
         android:layout_width="393dp"
         android:layout_height="55dp"
         android:layout_marginTop="20dp"
@@ -64,25 +73,46 @@
         <RadioButton
             android:id="@+id/asUser"
             style="@android:style/Widget.CompoundButton.RadioButton"
+            android:button="@color/transparnt"
+            android:background="@drawable/radio_selector"
+            android:elevation="4dp"
             android:layout_width="110dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:checked="true"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:textColor="#ffffffff"
+            android:fontFamily="@font/montserratbold"
             android:text="Register as user" />
 
         <RadioButton
             android:id="@+id/asTalentedUser"
             style="@android:style/Widget.CompoundButton.RadioButton"
+            android:button="@color/transparnt"
+            android:background="@drawable/radio_selector"
+            android:elevation="4dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:textColor="#ffffffff"
+            android:fontFamily="@font/montserratbold"
             android:text="Register as talented user" />
 
         <RadioButton
             android:id="@+id/asStar"
             style="@android:style/Widget.CompoundButton.RadioButton"
+            android:button="@color/transparnt"
+            android:background="@drawable/radio_selector"
+            android:elevation="4dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:textColor="#ffffffff"
+            android:fontFamily="@font/montserratbold"
             android:text="Register as star" />
     </RadioGroup>
     <Button
@@ -90,14 +120,16 @@
         android:layout_height="wrap_content"
         android:id="@id/register"
         android:text="Register"
-        android:textColor="#BE3CC8"
-        android:background="@drawable/button_background"
+        android:textColor="@color/colorWithe"
+        android:background="@drawable/custom_button"
         android:layout_marginTop="15dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Already have an account ?log In"
         android:id="@+id/txt_login"
+        android:fontFamily="@font/lobsterregular"
+        android:textColor="#4b134f"
         android:layout_marginTop="10dp"
         />
 

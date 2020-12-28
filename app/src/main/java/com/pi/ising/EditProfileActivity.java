@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ import java.util.HashMap;
 public class EditProfileActivity extends AppCompatActivity {
 
     ImageView close,imageProfile;
-    MaterialEditText bio,fullname,username;
+    EditText bio,fullname,username;
     TextView save,tv_change;
     FirebaseUser firebaseUser;
     private Uri mImageUri;

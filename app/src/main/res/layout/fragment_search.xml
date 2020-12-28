@@ -10,28 +10,29 @@
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground">
+        android:background="@drawable/custon_input_send_without_corner">
 
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground">
+            android:background="@drawable/custon_input_send_without_corner">
 
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_search" />
+                android:src="@drawable/ic_search_black" />
 
             <EditText
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
+                android:paddingLeft="5dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="@android:color/background_light"
+                android:background="@drawable/custon_input_send"
                 android:hint="search" />
 
         </androidx.appcompat.widget.Toolbar>

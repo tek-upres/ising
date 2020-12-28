@@ -7,17 +7,18 @@
 <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/windowBackground"
+    android:background="@drawable/custon_input_send_without_corner"
     android:id="@+id/bar">
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="@drawable/custon_input_send_without_corner"
         android:id="@+id/toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/custon_input_send_without_corner">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -25,7 +26,8 @@
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:id="@+id/username"
-                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/montserratbold"
+                android:textColor="@color/colorBlack"
                 />
             <ImageView
                 android:layout_width="wrap_content"
@@ -67,12 +69,14 @@
                 android:layout_height="80dp"
                 android:id="@+id/image_profile"/>
                 <LinearLayout
+                    android:background="@drawable/custom_profile_bg"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="4dp"
                     android:orientation="vertical">
                     <LinearLayout
+                        android:background="@color/transparnt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -87,6 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/posts"
+        android:fontFamily="@font/lobsterregular"
         android:textColor="@color/colorPrimaryDark"
         android:layout_gravity="center"
         android:textSize="18sp"
@@ -94,6 +99,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lobsterregular"
        android:text="posts"/>
 
 
@@ -110,6 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/followers"
+        android:fontFamily="@font/lobsterregular"
         android:textColor="@color/colorPrimaryDark"
         android:layout_gravity="center"
         android:textSize="18sp"
@@ -117,6 +124,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lobsterregular"
        android:text="followers"/>
 </LinearLayout>
                         <LinearLayout
@@ -130,6 +138,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/following"
+                                android:fontFamily="@font/lobsterregular"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:layout_gravity="center"
                                 android:textSize="18sp"
@@ -137,6 +146,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/lobsterregular"
                                 android:text="following"/>
                         </LinearLayout>
 
@@ -150,14 +160,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:id="@+id/edit_profile"
-                            android:background="@drawable/button_background"/>
+                            android:textColor="@color/white"
+                            android:background="@drawable/custom_button_follow"/>
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:id="@+id/msgs"
                         android:layout_marginLeft="20dp"
-                        android:src="@drawable/ic_msgs"
+                        android:src="@drawable/ic_send_black"
                         android:visibility="invisible"/>
 
                     </LinearLayout>
@@ -175,6 +186,7 @@
         android:maxLines="1"
         android:id="@+id/fullname"
         android:textStyle="bold"
+        android:fontFamily="@font/lobsterregular"
         android:textSize="16dp"
         android:textColor="@color/colorPrimaryDark"/>
     <TextView
@@ -183,6 +195,7 @@
         android:layout_marginTop="5dp"
         android:id="@+id/bio"
         android:maxLines="6"
+        android:fontFamily="@font/lobsterregular"
         android:textColor="@color/colorPrimaryDark"/>
 </LinearLayout>
 <LinearLayout
@@ -199,14 +212,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:id="@+id/my_Posts"
-        android:src="@drawable/ic_grid"
+        android:src="@drawable/ic_grid_black"
+        android:background="@drawable/custon_input_send_without_corner"
         style="?android:attr/buttonBarButtonStyle"/>
     <ImageButton
         android:layout_width="1dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/custon_input_send_without_corner"
         android:layout_weight="2"
         android:id="@+id/save_videos"
-        android:src="@drawable/ic_favore"
+        android:src="@drawable/ic_favorite_black"
         style="?android:attr/buttonBarButtonStyle"/>
 
 

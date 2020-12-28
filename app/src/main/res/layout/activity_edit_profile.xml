@@ -7,17 +7,18 @@
     android:orientation="vertical"
     tools:context=".EditProfileActivity">
 
-    com.google.android.material.appbar.AppBarLayout
+    <!--com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground"
-    android:id="@+id/bar">
+    android:id="@+id/bar">-->
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground">
+        android:background="@drawable/custom_top_navigation_bar"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,9 +31,10 @@
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/close"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/white"
                 android:textSize="18dp"
                 android:textStyle="bold"
+                android:fontFamily="@font/montserratbold"
                 android:layout_toRightOf="@+id/close"
                 android:layout_marginLeft="10dp" />
             <TextView
@@ -44,7 +46,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserratbold"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -55,6 +58,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/ic_close"
+
                 android:layout_alignParentLeft="true" />
 
         </RelativeLayout>
@@ -77,35 +81,39 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Photo"
+            android:text="Change Photo ?"
+            android:fontFamily="@font/lobsterregular"
             android:id="@+id/tv_change"
             android:textColor="@color/colorPrimary"
             android:layout_gravity="center"
             android:textSize="16dp"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:id="@+id/fullname"
-            android:textColorHint="@color/colorGray"
+            android:background="@drawable/custon_input_send"
+            android:textColorHint="@color/colorgrayinput2"
             android:hint="Full name"
             android:layout_marginTop="20dp"
-            app:met_floatingLabel="normal"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+            android:paddingLeft="8dp"/>
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/custon_input_send"
             android:id="@+id/username"
-            android:textColorHint="@color/colorGray"
+            android:textColorHint="@color/colorgrayinput2"
             android:hint="User name"
             android:layout_marginTop="20dp"
-            app:met_floatingLabel="normal"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+            android:paddingLeft="8dp"/>
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:id="@+id/bio"
-            android:textColorHint="@color/colorGray"
+            android:background="@drawable/custon_input_send"
+            android:textColorHint="@color/colorgrayinput2"
             android:hint="Bio"
             android:layout_marginTop="20dp"
-            app:met_floatingLabel="normal"/>
+            android:paddingLeft="8dp"/>
 
 
 

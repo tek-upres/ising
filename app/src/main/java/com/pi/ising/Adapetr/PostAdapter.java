@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pi.ising.CommentsActivity;
+import com.pi.ising.FollowersActivity;
 import com.pi.ising.R;
 import com.pi.ising.fragment.PostDetailsFragment;
 import com.pi.ising.model.Post;
@@ -133,15 +134,24 @@ holder.like.setOnClickListener(new View.OnClickListener() {
                         new PostDetailsFragment()).commit();
             }
         });
-holder.comment.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(mContext, CommentsActivity.class);
-        intent.putExtra("postid",post.getPostid());
-        intent.putExtra("publisshier",post.getPublisher());
-        mContext.startActivity(intent);
-    }
-});
+        holder.likes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mContext, FollowersActivity.class);
+                intent.putExtra("id",post.getPostid());
+                intent.putExtra("title","likes");
+                mContext.startActivity(intent);
+            }
+        });
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, CommentsActivity.class);
+                intent.putExtra("postid",post.getPostid());
+                intent.putExtra("publisshier",post.getPublisher());
+                mContext.startActivity(intent);
+            }
+        });
         holder.comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,10 +169,9 @@ holder.comment.setOnClickListener(new View.OnClickListener() {
     }
 
     public class  ViewHolder extends RecyclerView.ViewHolder{
-public ImageView imaga_profile,like,comment,save;
-public VideoView post_video;
+        public ImageView imaga_profile,like,comment,save;public VideoView post_video;
         public ImageView imageView;
-public TextView username,likes,publisher,description,comments;
+        public TextView username,likes,publisher,description,comments;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.pimage);

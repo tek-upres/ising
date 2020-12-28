@@ -12,7 +12,8 @@
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="614dp"
-        android:layout_below="@+id/bar" />
+        android:layout_below="@+id/bar"
+        android:paddingBottom="40dp"/>
 
 
 

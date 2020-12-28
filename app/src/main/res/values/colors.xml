@@ -6,4 +6,8 @@
     <color name="colorGray">#eee</color>
     <color name="colorWithe">#fff</color>
     <color name="colorBlack">#000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparnt">#00000000</color>
+    <color name="colorgrayinput">#F7524F4F</color>
+    <color name="colorgrayinput2">#FA727070</color>
 </resources>

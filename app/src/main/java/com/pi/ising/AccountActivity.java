@@ -54,6 +54,9 @@ public class AccountActivity extends AppCompatActivity {
                         case R.id.nav_home:
                             selectedFragment=new homeFragment();
                         break;
+                        case R.id.logout:
+                            signout();
+                            break;
                         case R.id.nav_search:
 
                             selectedFragment=new searchFragment();
@@ -83,15 +86,16 @@ if (selectedFragment !=null){
                     return true;
                 }
             };
-  /*  public void signout(View view){
+    public void signout(){
         //Log.d("info :","here 2");
         //startActivity(new Intent(AccountActivity.this,LoginActivity.class));
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(AccountActivity.this,LoginActivity.class));
+        finish();
     }
-*/
-    public void goToProfile(View view){
+
+    /*public void goToProfile(View view){
         startActivity(new Intent(AccountActivity.this,ProfileActivity.class));
-    }
+    }*/
 
 }

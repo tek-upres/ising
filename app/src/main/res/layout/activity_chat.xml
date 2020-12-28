@@ -9,7 +9,7 @@
     android:id="@+id/toolbar1"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    android:background="@color/colorGray"
+    android:background="@drawable/custon_input_send_without_corner"
     android:theme="@style/ExoMediaButton">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileiv"
@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="His Name"
+            android:fontFamily="@font/montserratbold"
             android:textColor="@color/colorBlack"
             android:textSize="18dp"
             android:textStyle="bold"/>
@@ -38,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="online"
+            android:fontFamily="@font/montserratbold"
             android:textColor="@color/colorBlack"
             android:textSize="10dp"
             android:textStyle="bold"/>
@@ -60,7 +62,7 @@
         <EditText
             android:id="@+id/messageET"
             android:layout_weight="1"
-            android:background="@null"
+            android:background="@drawable/custon_input_send"
             android:hint="start typing"
             android:padding="15dp"
             android:inputType="textCapSentences"
@@ -68,7 +70,8 @@
             android:layout_height="wrap_content"/>
 <ImageButton
     android:id="@+id/sendbtn"
-    android:src="@drawable/ic_send"
+    android:src="@drawable/ic_send_black"
+
     android:layout_width="40dp"
     android:layout_height="40dp"/>
 

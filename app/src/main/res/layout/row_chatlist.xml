@@ -6,7 +6,9 @@
     app:contentPadding="3dp">
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/custon_input_send_without_corner">
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileTv"
@@ -21,6 +23,7 @@
         android:layout_height="25dp"/>
 <TextView
     android:id="@+id/nameTv"
+    android:background="@color/transparnt"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="His Name"
@@ -32,6 +35,7 @@
     android:layout_marginLeft="3dp" />
 
     <TextView
+        android:background="@drawable/custon_input_send_without_corner"
         android:id="@+id/lastMessageTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

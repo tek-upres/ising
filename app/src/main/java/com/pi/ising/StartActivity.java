@@ -2,10 +2,12 @@ package com.pi.ising;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,11 +30,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.pi.ising.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class StartActivity extends AppCompatActivity {
     Button login, register;
@@ -80,11 +90,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public void signingoogle(View view) {
-        Log.d("LoginActivity", "begin of signingoogle");
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        //startActivity(new Intent(LoginActivity.this,AccountActivity.class));
-        Log.d("LoginActivity", "end of signingoogle");
     }
 
     @Override
@@ -95,11 +102,9 @@ public class StartActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
-        Log.d("LoginActivity", "end of onActivityResult");
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> task) {
-        Log.d("LoginActivity", "begin of handleSignInResult");
         try {
             GoogleSignInAccount acc = task.getResult(ApiException.class);
             FirebaseGoogleAuth(acc);
@@ -107,7 +112,6 @@ public class StartActivity extends AppCompatActivity {
             Toast.makeText(StartActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
             FirebaseGoogleAuth(null);
         }
-        Log.d("LoginActivity", "end of handleSignInResult");
     }
 
     private void FirebaseGoogleAuth(GoogleSignInAccount acct) {
@@ -123,80 +127,73 @@ public class StartActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
                     register(user,account);
-                    //updateUI(user);
                 } else {
                     Toast.makeText(StartActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                    //updateUI(null);
                     register(null,null);
                 }
-                Log.d("LoginActivity", "end of onComplete");
             }
 
 
         });
-        Log.d("LoginActivity", "end of FirebaseGoogleAuth");
     }
 
-    private void updateUI(FirebaseUser user) {
-        Log.d("LoginActivity", "begin of updateUI");
-        Toast.makeText(StartActivity.this, "UpdateUI", Toast.LENGTH_SHORT).show();
-
-        //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        //register(user, account);
-            /*reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        //pd.dismiss();
-                        Toast.makeText(StartActivity.this,"user created",Toast.LENGTH_SHORT).show();
-
-
-                    }else{
-                        Toast.makeText(StartActivity.this,"Fail to create user",Toast.LENGTH_SHORT).show();
-
-                    }*/
-            /*String personName = account.getDisplayName();
-            String personGivenName = account.getGivenName();
-            String personFamilyName = account.getFamilyName();
-            String personEmail = account.getEmail();
-            String personId = account.getId();
-            Uri personPhoto= account.getPhotoUrl();
-            //startActivity(new Intent(LoginActivity.this,AccountActivity.class));*/
-        //finish();
-
-        //});
-    }
-
-    private void register(FirebaseUser user, GoogleSignInAccount account) {
+    private void register(FirebaseUser user, final GoogleSignInAccount account) {
 
         if (account != null) {
-            Toast.makeText(StartActivity.this, "register user ", Toast.LENGTH_SHORT).show();
+            final String user_id = user.getUid();
 
-            String user_id = user.getUid();
-            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
-            //reference=FirebaseDatabase.getInstance().getReference("/Users").child(user_id);
-            final HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("id", user_id);
-            hashMap.put("onlineStatus", "");
-            hashMap.put("typingTo", "");
-            hashMap.put("username", account.getDisplayName().toLowerCase());
-            hashMap.put("fullname", account.getGivenName() + " " + account.getFamilyName());
-            hashMap.put("bio", "");
-            hashMap.put("imageurl", account.getPhotoUrl());
-            hashMap.put("userRole", "user");
-            Toast.makeText(StartActivity.this, "end of register", Toast.LENGTH_SHORT).show();
-            //reference.setValue(hashMap);
-            reference.setValue(new User(hashMap.get("id").toString(),hashMap.get("username").toString(),hashMap.get("fullname").toString(),
-                    hashMap.get("imageurl").toString(),
-                    hashMap.get("bio").toString(),hashMap.get("typingTo").toString(),hashMap.get("onlineStatus").toString(),hashMap.get("userRole").toString())).addOnCompleteListener(new OnCompleteListener<Void>() {
+            FirebaseDatabase.getInstance().getReference("Users").addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(StartActivity.this, "Welcome "+hashMap.get("fullname").toString() , Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(StartActivity.this, AccountActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean isRegistered=false;
+                    for (DataSnapshot ds:snapshot.getChildren()){
+                        User user = ds.getValue(User.class);
+                        if (user.getId().equals(user_id)){
+                            isRegistered=true;
+
+                            break;
+                        }
+                    }
+                    if (!isRegistered) {
+                        reference = FirebaseDatabase.getInstance().getReference("Users");
+
+                        final HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("id", user_id);
+                        hashMap.put("username", account.getDisplayName().toLowerCase());
+                        hashMap.put("fullname", account.getGivenName() + " " + account.getFamilyName());
+                        hashMap.put("bio", "");
+                        hashMap.put("imageurl", account.getPhotoUrl());
+                        hashMap.put("userRole", "user");
+                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(StartActivity.this, "Welcome " + hashMap.get("fullname").toString(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(StartActivity.this, AccountActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                //finish();
+                            }
+
+
+                        });
+                    }else{
+                        Toast.makeText(StartActivity.this, "Welcome "+account.getDisplayName() , Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(StartActivity.this, AccountActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
             });
+
+
 
         }
     }

@@ -18,7 +18,7 @@
         android:id="@+id/titleEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWithe"
+        android:background="@drawable/custom_input"
         android:hint="description"
         android:padding="15dp"
         android:inputType="textCapSentences|textPersonName"
@@ -30,20 +30,24 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/videoView"
     android:layout_marginTop="5dp"
-    android:text="uplode"
-    android:background="@color/colorGray"
-    android:textColor="@color/colorBlack"/>
+    android:text="upload"
+    android:background="@drawable/custom_button"
+    android:fontFamily="@font/montserratbold"
+    android:textColor="@color/white"/>
     <!--pik video-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/pickvideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="26dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_addvideo"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="26dp"
+        android:background="@drawable/custom_button"
+        android:outlineAmbientShadowColor="#CCc94b4b"
+        android:src="@drawable/ic_addvideo_black"
+        app:backgroundTint="#CCc94b4b"
+        app:rippleColor="@color/colorBlack" />
 
 
 </RelativeLayout>

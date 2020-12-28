@@ -9,17 +9,18 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="@drawable/custon_input_send_without_corner"
         android:id="@+id/bar">
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground"
+            android:background="@drawable/custon_input_send_without_corner"
             android:id="@+id/toolbar">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/custon_input_send_without_corner">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -27,8 +28,9 @@
                     android:maxLines="1"
                     android:text="Post"
                     android:textStyle="bold"
+                    android:fontFamily="@font/montserratbold"
                     android:id="@+id/username"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorBlack"
                     />
 
             </RelativeLayout>

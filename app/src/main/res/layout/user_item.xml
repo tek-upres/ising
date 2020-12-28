@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/custom_profile_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
@@ -41,12 +42,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:background="@drawable/button_background"
+        android:background="@drawable/custom_button_follow"
         android:id="@+id/btn_follow"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorBlack"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:visibility="gone"
+        android:fontFamily="@font/montserratbold"
         android:layout_alignParentRight="true" />
 
 </RelativeLayout>
